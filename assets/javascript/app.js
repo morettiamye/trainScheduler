@@ -27,7 +27,7 @@ $("#submit-button").on("click", function (event) {
 
 
 
-
+// Function for updating train table / Time uses Moment.js
 function table(train) {
     startTime = moment(train.start, "HH:mm").add(-1, "days");
     var currentTime = moment();
@@ -37,10 +37,10 @@ function table(train) {
     var nextTrain = currentTime.add(train.frequency - lastTrain, "minutes")
     console.log("after add", currentTime)
     var nextTrainTime = nextTrain.format("h:mm: A")
-    //the .add method from ln 48 redefines currentTime, so it can't be passed in again on ln 52
     var minutesAway = nextTrain.diff(moment(), "minutes")
 
 
+    // Update table
     var newRow = $("<tr>");
     newRow.append($("<td>").text(train.name));
     newRow.append($("<td>").text(train.destination));
@@ -51,7 +51,7 @@ function table(train) {
 }
 
 database.ref().on("child_added", function (snapshot) {
-    var sv = snapshot.val();
-    table(sv);
+    var snap = snapshot.val();
+    table(snap);
 
 });
